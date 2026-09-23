@@ -1,0 +1,26 @@
+<article class="food-card">
+  <div class="food-card__heading">
+    <h2>{{ food().name }}</h2>
+    <p>{{ formatNutritionValue(calories()) }} kcal <span>per 100 g</span></p>
+  </div>
+
+  <dl class="food-card__macros">
+    <div>
+      <dt>Fat</dt>
+      <dd>{{ formatNutritionValue(food().fatGramsPer100g) }} g</dd>
+    </div>
+    <div>
+      <dt>Carbs</dt>
+      <dd>{{ formatNutritionValue(food().carbohydratesGramsPer100g) }} g</dd>
+    </div>
+    <div>
+      <dt>Protein</dt>
+      <dd>{{ formatNutritionValue(food().proteinGramsPer100g) }} g</dd>
+    </div>
+  </dl>
+
+  @let salt = food().saltGramsPer100g;
+  @if (salt !== undefined) {
+    <p class="food-card__salt">Salt {{ formatNutritionValue(salt) }} g</p>
+  }
+</article>

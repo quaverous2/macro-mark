@@ -1,0 +1,81 @@
+<section class="today-page">
+  <header class="page-header">
+    <div>
+      <p class="eyebrow">Today</p>
+      <h1>What did you eat?</h1>
+    </div>
+    @if (foods().length > 0) {
+      <button type="button" class="button button--primary" (click)="togglePicker()">Add row</button>
+    }
+  </header>
+
+  @if (isLoading()) {
+    <p class="state-message">Loading today…</p>
+  } @else if (loadError()) {
+    <p class="state-message state-message--error">{{ loadError() }}</p>
+  } @else if (foods().length === 0) {
+    <section class="empty-state" aria-labelledby="empty-state-title">
+      <h2 id="empty-state-title">Start with your food library.</h2>
+      <p>Add the foods you use most. You will be able to log how many grams you ate next.</p>
+      <a routerLink="/foods" class="button button--primary">Manage foods</a>
+    </section>
+  } @else {
+    @if (isPickerOpen()) {
+      <section class="food-picker" aria-label="Add a food to today">
+        <label class="search-field">
+          <span>Find a food</span>
+          <input #pickerInput type="search" placeholder="Search your foods" [value]="pickerSearch()" (input)="updatePickerSearch(pickerInput.value)" autofocus />
+        </label>
+        <div class="food-picker__results">
+          @for (food of filteredFoods(); track food.id) {
+            <button type="button" class="pick-food-card" [disabled]="isAdding()" (click)="addEntry(food)">
+              <span>{{ food.name }}</span>
+              <small>{{ formatNutritionValue(food.carbohydratesGramsPer100g) }} C · {{ formatNutritionValue(food.fatGramsPer100g) }} F · {{ formatNutritionValue(food.proteinGramsPer100g) }} P / 100 g</small>
+            </button>
+          } @empty {
+            <p class="picker-empty">No foods found. <a routerLink="/foods">Manage foods</a></p>
+          }
+        </div>
+      </section>
+    }
+
+    @if (saveError()) {
+      <p class="state-message state-message--error" role="alert">{{ saveError() }}</p>
+    }
+
+    <section class="daily-log" aria-label="Today's food entries">
+      @if (entries().length === 0) {
+        <p class="daily-log__empty">Add a food, then enter the grams you ate.</p>
+      } @else {
+        <div class="daily-table-scroll">
+          <table>
+            <thead><tr><th scope="col">Food</th><th scope="col">Amount</th><th scope="col">Carbs</th><th scope="col">Fat</th><th scope="col">Protein</th><th scope="col">Salt</th><th scope="col">Calories</th><th scope="col"><span class="visually-hidden">Actions</span></th></tr></thead>
+            <tbody>
+              @for (entry of entries(); track entry.id) {
+                @let nutrition = calculateEntryNutrition(entry);
+                <tr>
+                  <th scope="row">{{ entry.foodName }}</th>
+                  <td><label class="amount-field"><span class="visually-hidden">Amount in grams for {{ entry.foodName }}</span><input type="number" min="0" max="10000" step="0.01" inputmode="decimal" [formControl]="amountControl(entry.id)" (input)="updateAmount(entry.id, amountControl(entry.id).value)" (blur)="flushAmountSave(entry.id)" /><span>g</span></label></td>
+                  <td>{{ formatNutritionValue(nutrition.carbohydratesGramsPer100g) }} g</td>
+                  <td>{{ formatNutritionValue(nutrition.fatGramsPer100g) }} g</td>
+                  <td>{{ formatNutritionValue(nutrition.proteinGramsPer100g) }} g</td>
+                  <td>{{ formatNutritionValue(nutrition.saltGramsPer100g) }} g</td>
+                  <td>{{ formatNutritionValue(nutrition.calories) }}</td>
+                  <td><button type="button" class="remove-button" (click)="removeEntry(entry.id)">Remove</button></td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      }
+    </section>
+
+    <aside class="daily-totals" aria-label="Today's totals">
+      <div><span>Calories</span><strong>{{ formatNutritionValue(totals().calories) }} kcal</strong></div>
+      <div><span>Carbs</span><strong>{{ formatNutritionValue(totals().carbohydratesGramsPer100g) }} g</strong></div>
+      <div><span>Fat</span><strong>{{ formatNutritionValue(totals().fatGramsPer100g) }} g</strong></div>
+      <div><span>Protein</span><strong>{{ formatNutritionValue(totals().proteinGramsPer100g) }} g</strong></div>
+      <div><span>Salt</span><strong>{{ formatNutritionValue(totals().saltGramsPer100g) }} g</strong></div>
+    </aside>
+  }
+</section>
