@@ -3,6 +3,7 @@ import Dexie from 'dexie';
 import { Food, FoodNutrition } from '../domain/food';
 import { foodSchema } from '../domain/food.schema';
 import { database } from './macro-mark.database';
+import { PersistenceSyncService } from './persistence-sync.service';
 
 export class DuplicateFoodNameError extends Error {
   constructor(name: string) {
@@ -16,6 +17,8 @@ export interface NewFood extends FoodNutrition {
 
 @Injectable({ providedIn: 'root' })
 export class FoodRepository {
+  constructor(private readonly persistenceSyncService: PersistenceSyncService) {}
+
   async listNewest(): Promise<Food[]> {
     const foods = await database.foods.orderBy('createdAt').reverse().toArray();
     return foods.map((food) => foodSchema.parse(food));
@@ -35,6 +38,7 @@ export class FoodRepository {
 
     try {
       await database.foods.add(food);
+      this.persistenceSyncService.notifyLocalChange();
       return food;
     } catch (error) {
       if (error instanceof Dexie.ConstraintError) {

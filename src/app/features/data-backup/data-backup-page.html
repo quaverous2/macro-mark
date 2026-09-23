@@ -1,0 +1,67 @@
+<section class="data-backup-page">
+  <header class="page-header">
+    <div>
+      <p class="eyebrow">{{ isSetup() ? 'Welcome' : 'Data & backup' }}</p>
+      <h1>{{ isSetup() ? 'Choose where your data lives' : 'Your data destination' }}</h1>
+    </div>
+  </header>
+
+  @if (isSetup()) {
+    <p class="intro">Choose an option now. You can change it later without losing the data on this device.</p>
+  }
+
+  @if (actionError()) { <p class="state-message state-message--error" role="alert">{{ actionError() }}</p> }
+
+  @if (pendingFileImport(); as pendingImport) {
+    <section class="decision-card">
+      <h2>Use “{{ pendingImport.fileHandle.name }}”?</h2>
+      <p>Choose which data should become the source of truth. This is never done automatically.</p>
+      <div class="button-row">
+        <button type="button" class="button button--primary" (click)="useFileData()">Use file data</button>
+        <button type="button" class="button button--secondary" (click)="replaceFileWithDeviceData()">Replace file with device data</button>
+        <button type="button" class="text-button" (click)="cancelFileImport()">Cancel</button>
+      </div>
+    </section>
+  } @else {
+    <div class="destination-grid">
+      <section class="destination-card">
+        <h2>This device only</h2>
+        <p>Keep data in this browser’s local storage. You can export or add a backup destination later.</p>
+        <button type="button" class="button button--secondary" (click)="useThisDeviceOnly()">Use this device</button>
+      </section>
+
+      <section class="destination-card">
+        <h2>Local file</h2>
+        <p>Keep a versioned JSON file in a location you choose. Automatic read/write is available in Chrome and Edge.</p>
+        @if (supportsLocalFiles) {
+          <div class="button-row">
+            <button type="button" class="button button--primary" (click)="createLocalFile()">Create backup file</button>
+            <button type="button" class="button button--secondary" (click)="selectExistingLocalFile()">Choose existing file</button>
+          </div>
+        } @else {
+          <p class="notice">Automatic local-file backup needs Chrome or Edge. This browser can still use device-only storage.</p>
+        }
+      </section>
+
+      <section class="destination-card destination-card--disabled">
+        <h2>Google Sheets</h2>
+        <p>Connect one spreadsheet containing Foods, Today, and History. This will be enabled once the Google OAuth client is configured.</p>
+        <span class="coming-soon">Next slice</span>
+      </section>
+    </div>
+  }
+
+  @if (!isSetup()) {
+    <section class="sync-status" aria-live="polite">
+      <span>Current status</span>
+      <strong>{{ statusLabel() }}</strong>
+      @if (persistenceSyncService.settings(); as settings) { <small>{{ settings.provider === 'file' ? settings.fileName : settings.provider === 'device' ? 'This device only' : 'Google Sheets' }}</small> }
+      @if (persistenceSyncService.status() === 'attention') {
+        <div class="button-row">
+          @if (persistenceSyncService.settings()?.provider === 'file') { <button type="button" class="button button--secondary" (click)="reconnectFile()">Reconnect file</button> }
+          <button type="button" class="button button--secondary" (click)="retry()">Retry sync</button>
+        </div>
+      }
+    </section>
+  }
+</section>

@@ -4,9 +4,12 @@ import { dailyLogSchema } from '../domain/daily-log.schema';
 import { Food } from '../domain/food';
 import { createDailyFoodEntry, hasConsumedEntries } from '../nutrition/daily-nutrition-calculations';
 import { database } from './macro-mark.database';
+import { PersistenceSyncService } from './persistence-sync.service';
 
 @Injectable({ providedIn: 'root' })
 export class DailyLogRepository {
+  constructor(private readonly persistenceSyncService: PersistenceSyncService) {}
+
   async get(date: string): Promise<DailyLog | undefined> {
     const log = await database.dailyLogs.get(date);
     return log === undefined ? undefined : dailyLogSchema.parse(log);
@@ -23,7 +26,7 @@ export class DailyLogRepository {
   async addEntry(date: string, food: Food): Promise<DailyLog> {
     assertCurrentDate(date);
     const now = new Date();
-    return database.transaction('rw', database.dailyLogs, async () => {
+    const log = await database.transaction('rw', database.dailyLogs, async () => {
       const storedLog = await database.dailyLogs.get(date);
       const currentLog = storedLog === undefined ? undefined : dailyLogSchema.parse(storedLog);
       const log: DailyLog = {
@@ -34,12 +37,14 @@ export class DailyLogRepository {
       await database.dailyLogs.put(log);
       return log;
     });
+    this.persistenceSyncService.notifyLocalChange();
+    return log;
   }
 
   async updateAmount(date: string, entryId: string, amountGrams: number): Promise<DailyLog> {
     assertCurrentDate(date);
     const now = new Date();
-    return database.transaction('rw', database.dailyLogs, async () => {
+    const log = await database.transaction('rw', database.dailyLogs, async () => {
       const storedLog = await database.dailyLogs.get(date);
       if (storedLog === undefined) throw new Error(`No daily log exists for ${date}.`);
       const currentLog = dailyLogSchema.parse(storedLog);
@@ -52,12 +57,14 @@ export class DailyLogRepository {
       await database.dailyLogs.put(log);
       return log;
     });
+    this.persistenceSyncService.notifyLocalChange();
+    return log;
   }
 
   async removeEntry(date: string, entryId: string): Promise<DailyLog> {
     assertCurrentDate(date);
     const now = new Date();
-    return database.transaction('rw', database.dailyLogs, async () => {
+    const log = await database.transaction('rw', database.dailyLogs, async () => {
       const storedLog = await database.dailyLogs.get(date);
       if (storedLog === undefined) throw new Error(`No daily log exists for ${date}.`);
       const currentLog = dailyLogSchema.parse(storedLog);
@@ -69,6 +76,8 @@ export class DailyLogRepository {
       await database.dailyLogs.put(log);
       return log;
     });
+    this.persistenceSyncService.notifyLocalChange();
+    return log;
   }
 }
 

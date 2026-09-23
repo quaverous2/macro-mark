@@ -10,4 +10,4 @@
 .mobile-nav a { min-width: 5.5rem; text-align: center; }
 @keyframes toast-enter { from { opacity: 0; transform: translate(-50%, 0.5rem); } }
 @media (min-width: 40rem) { .mobile-nav { display: none; } .toast { bottom: 2rem; } }
-@media (max-width: 39.99rem) { .desktop-nav { display: none; } .app-content { padding-bottom: 6rem; } }
+@media (max-width: 39.99rem) { .desktop-nav { display: none; } .mobile-nav a { flex: 1; min-width: 0; } .app-content { padding-bottom: 6rem; } }

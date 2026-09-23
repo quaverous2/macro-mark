@@ -75,6 +75,14 @@ npm start
 
 Open `http://localhost:4200`. The development server reloads after source changes.
 
+## Data & backup
+
+On first run, MacroMark asks where data should live: **This device only**, a local backup file, or (in the next implementation slice) Google Sheets. The chosen destination is remembered on that device. IndexedDB remains the responsive offline cache; changes are written there first and then mirrored to the active destination.
+
+The local-file option is available in Chrome and Edge. It stores a versioned `.macro-mark.json` document with `foods`, `today`, and `history` sections, and reopens the selected file automatically when browser permission remains granted. Firefox remains supported for device-only storage and manual export/import; it cannot provide reliable automatic read/write access to a normal local file.
+
+If a selected destination cannot be reached, MacroMark retains local data and queued changes, and reports that sync needs attention rather than overwriting either copy.
+
 Useful commands:
 
 ```bash

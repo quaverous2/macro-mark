@@ -1,22 +1,24 @@
-<header class="app-header">
-  <a routerLink="/" class="brand" aria-label="MacroMark home">MacroMark</a>
-  <nav class="desktop-nav" aria-label="Main navigation">
+@if (persistenceSyncService.needsSetup()) {
+  <main class="app-content"><app-data-backup-page [isSetup]="true" /></main>
+} @else {
+  <header class="app-header">
+    <a routerLink="/" class="brand" aria-label="MacroMark home">MacroMark</a>
+    <nav class="desktop-nav" aria-label="Main navigation">
+      <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Today</a>
+      <a routerLink="/foods" routerLinkActive="active">Foods</a>
+      <a routerLink="/history" routerLinkActive="active">History</a>
+      <a routerLink="/data" routerLinkActive="active">Data</a>
+    </nav>
+  </header>
+
+  <main class="app-content"><router-outlet /></main>
+
+  @if (toastService.message(); as message) { <p class="toast" role="status">{{ message }}</p> }
+
+  <nav class="mobile-nav" aria-label="Main navigation">
     <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Today</a>
     <a routerLink="/foods" routerLinkActive="active">Foods</a>
     <a routerLink="/history" routerLinkActive="active">History</a>
+    <a routerLink="/data" routerLinkActive="active">Data</a>
   </nav>
-</header>
-
-<main class="app-content">
-  <router-outlet />
-</main>
-
-@if (toastService.message(); as message) {
-  <p class="toast" role="status">{{ message }}</p>
 }
-
-<nav class="mobile-nav" aria-label="Main navigation">
-  <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Today</a>
-  <a routerLink="/foods" routerLinkActive="active">Foods</a>
-  <a routerLink="/history" routerLinkActive="active">History</a>
-</nav>
