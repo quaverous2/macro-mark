@@ -1,0 +1,134 @@
+.food-form-page {
+  max-width: 42rem;
+  padding: clamp(1.5rem, 5vw, 3.5rem) 0;
+}
+
+header p:not(.eyebrow) {
+  color: var(--muted);
+  line-height: 1.5;
+  margin: 0.75rem 0 0;
+}
+
+.eyebrow {
+  color: var(--accent-strong);
+  font-size: 0.875rem;
+  font-weight: 700;
+  margin: 0 0 0.4rem;
+}
+
+h1 {
+  color: var(--ink);
+  font-size: clamp(2rem, 5vw, 2.75rem);
+  letter-spacing: -0.03em;
+  margin: 0;
+}
+
+form {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 1rem;
+  margin-top: 2rem;
+  padding: clamp(1rem, 5vw, 2rem);
+}
+
+.field {
+  display: block;
+}
+
+.field > span:first-child {
+  color: var(--ink);
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.field em,
+.calorie-preview em {
+  color: var(--muted);
+  font-style: normal;
+  font-weight: 500;
+}
+
+input {
+  background: var(--surface-raised);
+  border: 1px solid var(--border-strong);
+  border-radius: 0.75rem;
+  box-sizing: border-box;
+  color: var(--ink);
+  font: inherit;
+  min-height: 2.75rem;
+  padding: 0.625rem 0.75rem;
+  width: 100%;
+}
+
+input:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-soft);
+  outline: none;
+}
+
+.macro-fields {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(3, 1fr);
+  margin-top: 1.25rem;
+}
+
+.salt-field {
+  margin-top: 1.25rem;
+  max-width: calc((100% - 2rem) / 3);
+}
+
+.field__error,
+.form-error {
+  color: var(--danger);
+  display: block;
+  font-size: 0.8rem;
+  line-height: 1.35;
+  margin-top: 0.4rem;
+}
+
+.calorie-preview {
+  align-items: center;
+  background: var(--accent-soft);
+  border-radius: 0.75rem;
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1.5rem;
+  padding: 0.875rem 1rem;
+}
+
+.calorie-preview span {
+  color: var(--accent-strong);
+  font-size: 0.875rem;
+  font-weight: 700;
+}
+
+.calorie-preview strong {
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+}
+
+.form-actions {
+  display: flex;
+  gap: 0.75rem;
+  justify-content: end;
+  margin-top: 1.5rem;
+}
+
+@media (max-width: 36rem) {
+  .macro-fields {
+    grid-template-columns: 1fr;
+  }
+
+  .salt-field {
+    max-width: none;
+  }
+
+  .calorie-preview {
+    align-items: start;
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+}

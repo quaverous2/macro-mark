@@ -1,0 +1,49 @@
+<section class="history-page">
+  <header class="page-header">
+    <div>
+      <p class="eyebrow">History</p>
+      <h1>Completed days</h1>
+    </div>
+  </header>
+
+  @if (isLoading()) {
+    <p class="state-message">Loading history…</p>
+  } @else if (loadError()) {
+    <p class="state-message state-message--error">{{ loadError() }}</p>
+  } @else if (logs().length === 0) {
+    <section class="empty-state" aria-labelledby="history-empty-title">
+      <h2 id="history-empty-title">No completed days yet.</h2>
+      <p>Days with food logged will appear here after midnight.</p>
+      <a routerLink="/" class="button button--primary">Go to Today</a>
+    </section>
+  } @else {
+    <div class="history-list">
+      @for (log of logs(); track log.date) {
+        @let totals = calculateDailyTotals(entriesFor(log));
+        @let isExpanded = expandedDates().has(log.date);
+        <article class="history-card">
+          <button type="button" class="history-card__summary" [attr.aria-expanded]="isExpanded" (click)="toggleDate(log.date)">
+            <span class="history-card__date">{{ formatHistoryDate(log.date) }}</span>
+            <span class="history-card__totals">
+              <strong>{{ formatNutritionValue(totals.calories) }} kcal</strong>
+              <small>C {{ formatNutritionValue(totals.carbohydratesGramsPer100g) }} · F {{ formatNutritionValue(totals.fatGramsPer100g) }} · P {{ formatNutritionValue(totals.proteinGramsPer100g) }} · S {{ formatNutritionValue(totals.saltGramsPer100g) }} g</small>
+            </span>
+            <span class="history-card__chevron" aria-hidden="true">{{ isExpanded ? '−' : '+' }}</span>
+          </button>
+
+          @if (isExpanded) {
+            <div class="history-card__details">
+              @for (entry of entriesFor(log); track entry.id) {
+                @let nutrition = calculateEntryNutrition(entry);
+                <div class="history-entry">
+                  <div><strong>{{ entry.foodName }}</strong><span>{{ formatNutritionValue(entry.amountGrams) }} g</span></div>
+                  <p>C {{ formatNutritionValue(nutrition.carbohydratesGramsPer100g) }} · F {{ formatNutritionValue(nutrition.fatGramsPer100g) }} · P {{ formatNutritionValue(nutrition.proteinGramsPer100g) }} · S {{ formatNutritionValue(nutrition.saltGramsPer100g) }} g · {{ formatNutritionValue(nutrition.calories) }} kcal</p>
+                </div>
+              }
+            </div>
+          }
+        </article>
+      }
+    </div>
+  }
+</section>

@@ -1,0 +1,13 @@
+:host { display: block; min-height: 100dvh; }
+.app-header { align-items: center; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; min-height: 4.25rem; padding: 0 max(1.25rem, calc((100vw - 70rem) / 2)); }
+.brand { color: var(--ink); font-size: 1.125rem; font-weight: 800; letter-spacing: -0.04em; text-decoration: none; }
+.desktop-nav, .mobile-nav { display: flex; gap: 0.25rem; }
+.desktop-nav a, .mobile-nav a { border-radius: 0.5rem; color: var(--muted); font-size: 0.875rem; font-weight: 700; padding: 0.5rem 0.75rem; text-decoration: none; }
+.desktop-nav a.active, .mobile-nav a.active { background: var(--accent-soft); color: var(--accent-strong); }
+.app-content { box-sizing: border-box; margin: 0 auto; max-width: 70rem; min-height: calc(100dvh - 4.25rem); padding: 0 1.25rem 2rem; }
+.toast { animation: toast-enter 180ms ease-out; background: #e5f7ec; border: 1px solid #9bd6ae; border-radius: 0.75rem; bottom: 5.5rem; color: #176b35; font-weight: 700; left: 50%; margin: 0; max-width: calc(100vw - 2rem); padding: 0.75rem 1rem; position: fixed; text-align: center; transform: translateX(-50%); z-index: 2; }
+.mobile-nav { background: color-mix(in srgb, var(--surface) 94%, transparent); border-top: 1px solid var(--border); bottom: 0; box-sizing: border-box; justify-content: space-around; left: 0; padding: 0.625rem 1rem calc(0.625rem + env(safe-area-inset-bottom)); position: fixed; right: 0; z-index: 1; }
+.mobile-nav a { min-width: 5.5rem; text-align: center; }
+@keyframes toast-enter { from { opacity: 0; transform: translate(-50%, 0.5rem); } }
+@media (min-width: 40rem) { .mobile-nav { display: none; } .toast { bottom: 2rem; } }
+@media (max-width: 39.99rem) { .desktop-nav { display: none; } .app-content { padding-bottom: 6rem; } }

@@ -1,0 +1,42 @@
+<section class="food-library-page">
+  <header class="page-header">
+    <div>
+      <p class="eyebrow">Food library</p>
+      <h1>Your foods</h1>
+    </div>
+    <a routerLink="/foods/new" class="button button--primary">Add food</a>
+  </header>
+
+  @if (isLoading()) {
+    <p class="state-message">Loading your foods…</p>
+  } @else if (loadError()) {
+    <p class="state-message state-message--error">{{ loadError() }}</p>
+  } @else if (foods().length === 0) {
+    <section class="empty-state" aria-labelledby="empty-state-title">
+      <h2 id="empty-state-title">Add foods once, then log what you eat in grams.</h2>
+      <p>Start with something you have often. Nutrition values are saved per 100 g.</p>
+      <a routerLink="/foods/new" class="button button--primary">Add your first food</a>
+    </section>
+  } @else {
+    <label class="search-field">
+      <span>Search foods</span>
+      <input
+        #searchInput
+        type="search"
+        placeholder="Search by name"
+        [value]="searchTerm()"
+        (input)="updateSearchTerm(searchInput.value)"
+      />
+    </label>
+
+    @if (filteredFoods().length === 0) {
+      <p class="state-message">No foods match “{{ searchTerm() }}”.</p>
+    } @else {
+      <div class="food-grid">
+        @for (food of filteredFoods(); track food.id) {
+          <app-food-card [food]="food" />
+        }
+      </div>
+    }
+  }
+</section>
