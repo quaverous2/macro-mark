@@ -1,0 +1,27 @@
+{
+	"name": "MacroMark",
+	"build": {
+		"dockerfile": "Dockerfile"
+	},
+	"remoteUser": "node",
+	"forwardPorts": [4200],
+	"portsAttributes": {
+		"4200": {
+			"label": "MacroMark development server",
+			"onAutoForward": "openBrowser"
+		}
+	},
+	"mounts": [
+		"source=macro-mark-node_modules,target=${containerWorkspaceFolder}/node_modules,type=volume"
+	],
+	"postCreateCommand": "sudo chown node:node node_modules && if [ -f package-lock.json ]; then npm ci; fi",
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"Angular.ng-template",
+				"dbaeumer.vscode-eslint",
+				"esbenp.prettier-vscode"
+			]
+		}
+	}
+}
