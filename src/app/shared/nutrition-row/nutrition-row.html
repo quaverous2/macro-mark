@@ -36,9 +36,11 @@
     <button type="button" class="nutrition-row__action nutrition-row__action--remove" aria-label="Remove {{ name() }}" (click)="removeRequested.emit()">x</button>
   }
 
-  <div class="nutrition-row__macro nutrition-row__macro--carbs"><span class="visually-hidden">Carbs </span>{{ formatNutritionValue(nutrition().carbohydratesGramsPer100g) }}<span class="nutrition-row__desktop-unit"> g</span><span class="nutrition-row__mobile-unit">C</span></div>
-  <div class="nutrition-row__macro nutrition-row__macro--fat"><span class="visually-hidden">Fat </span>{{ formatNutritionValue(nutrition().fatGramsPer100g) }}<span class="nutrition-row__desktop-unit"> g</span><span class="nutrition-row__mobile-unit">F</span></div>
-  <div class="nutrition-row__macro nutrition-row__macro--protein"><span class="visually-hidden">Protein </span>{{ formatNutritionValue(nutrition().proteinGramsPer100g) }}<span class="nutrition-row__desktop-unit"> g</span><span class="nutrition-row__mobile-unit">P</span></div>
-  <div class="nutrition-row__macro nutrition-row__macro--salt"><span class="visually-hidden">Salt </span>{{ formatNutritionValue(nutrition().saltGramsPer100g) }}<span class="nutrition-row__desktop-unit"> g</span><span class="nutrition-row__mobile-unit">S</span></div>
-  <div class="nutrition-row__macro nutrition-row__macro--calories"><span class="visually-hidden">Calories </span>{{ formatNutritionValue(nutrition().calories) }} kcal</div>
+  <div class="nutrition-row__macros">
+    <div class="nutrition-row__macro nutrition-row__macro--carbs"><span class="visually-hidden">Carbs </span>{{ formatNutritionValue(nutrition().carbohydratesGramsPer100g) }}<span class="nutrition-row__desktop-unit"> g</span><span class="nutrition-row__mobile-unit">C</span></div>
+    <div class="nutrition-row__macro nutrition-row__macro--fat"><span class="visually-hidden">Fat </span>{{ formatNutritionValue(nutrition().fatGramsPer100g) }}<span class="nutrition-row__desktop-unit"> g</span><span class="nutrition-row__mobile-unit">F</span></div>
+    <div class="nutrition-row__macro nutrition-row__macro--protein"><span class="visually-hidden">Protein </span>{{ formatNutritionValue(nutrition().proteinGramsPer100g) }}<span class="nutrition-row__desktop-unit"> g</span><span class="nutrition-row__mobile-unit">P</span></div>
+    <div class="nutrition-row__macro nutrition-row__macro--salt"><span class="visually-hidden">Salt </span>{{ formatNutritionValue(nutrition().saltGramsPer100g) }}<span class="nutrition-row__desktop-unit"> g</span><span class="nutrition-row__mobile-unit">S</span></div>
+    <div class="nutrition-row__macro nutrition-row__macro--calories"><span class="visually-hidden">Calories </span>{{ formatNutritionValue(nutrition().calories) }} kcal</div>
+  </div>
 </article>
