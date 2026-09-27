@@ -1,3 +1,4 @@
+import { InjectionToken } from '@angular/core';
 import Dexie, { type EntityTable } from 'dexie';
 import { DailyLog } from '../domain/daily-log';
 import { Food } from '../domain/food';
@@ -33,3 +34,13 @@ class MacroMarkDatabase extends Dexie {
 }
 
 export const database = new MacroMarkDatabase();
+
+export interface FoodDatabase {
+  readonly foods: typeof database.foods;
+  transaction: typeof database.transaction;
+}
+
+export const FOOD_DATABASE = new InjectionToken<FoodDatabase>('FOOD_DATABASE', {
+  providedIn: 'root',
+  factory: () => database,
+});

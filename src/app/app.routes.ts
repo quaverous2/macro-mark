@@ -9,6 +9,7 @@ export const routes: Routes = [
   { path: '', component: TodayPage, pathMatch: 'full' },
   { path: 'foods', component: FoodLibraryPage },
   { path: 'foods/new', component: FoodFormPage },
+  { path: 'foods/:id/edit', component: FoodFormPage },
   { path: 'history', component: HistoryPage },
   { path: 'data', component: DataBackupPage },
   { path: '**', redirectTo: '' },

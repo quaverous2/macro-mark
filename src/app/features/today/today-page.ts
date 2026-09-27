@@ -7,6 +7,7 @@ import { calculateDailyTotals, calculateEntryNutrition } from '../../core/nutrit
 import { formatNutritionValue } from '../../core/nutrition/nutrition-calculations';
 import { DailyLogRepository, getLocalDateKey } from '../../core/persistence/daily-log.repository';
 import { FoodRepository } from '../../core/persistence/food.repository';
+import { NutritionRow } from '../../shared/nutrition-row/nutrition-row';
 
 const amountValidator: ValidatorFn = (control) => {
   const value = control.value;
@@ -18,7 +19,7 @@ const amountValidator: ValidatorFn = (control) => {
 @Component({
   selector: 'app-today-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [ReactiveFormsModule, RouterLink],
+  imports: [NutritionRow, ReactiveFormsModule, RouterLink],
   templateUrl: './today-page.html',
   styleUrl: './today-page.scss',
 })

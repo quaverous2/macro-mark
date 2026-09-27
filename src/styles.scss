@@ -6,4 +6,5 @@ button, input { font: inherit; }
 .button--primary { background: var(--accent); color: #fff; }
 .button--primary:hover, .button--primary:focus-visible { background: var(--accent-strong); }
 .button--secondary { background: var(--surface); border-color: var(--border-strong); color: var(--ink); }
+.button--danger { background: var(--danger); color: #fff; }
 .button:disabled { cursor: wait; opacity: 0.7; }

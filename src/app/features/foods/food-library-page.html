@@ -32,11 +32,43 @@
     @if (filteredFoods().length === 0) {
       <p class="state-message">No foods match “{{ searchTerm() }}”.</p>
     } @else {
-      <div class="food-grid">
+      <div class="nutrition-list nutrition-list--foods">
+        <div class="nutrition-list__header" aria-hidden="true">
+          <span>Name</span><span>Carbs</span><span>Fat</span><span>Protein</span><span>Salt</span><span>Calories</span><span></span><span></span>
+        </div>
         @for (food of filteredFoods(); track food.id) {
-          <app-food-card [food]="food" />
+          <app-nutrition-row
+            [name]="food.name"
+            [nutrition]="foodNutrition(food)"
+            [per100g]="true"
+            [editLink]="['/foods', food.id, 'edit']"
+            (removeRequested)="requestRemoval(food)"
+          />
         }
       </div>
     }
+  }
+
+  @if (foodPendingRemoval(); as food) {
+    <section class="removal-dialog" role="alertdialog" aria-modal="true" aria-labelledby="removal-title">
+      <div class="removal-dialog__content">
+        <h2 id="removal-title">Remove {{ food.name }}?</h2>
+        <p>
+          This permanently removes it from your food library. Existing entries and their nutrition
+          snapshots will remain unchanged.
+        </p>
+        @if (removalError()) {
+          <p class="state-message state-message--error" role="alert">{{ removalError() }}</p>
+        }
+        <div class="removal-dialog__actions">
+          <button type="button" class="button button--secondary" [disabled]="isRemoving()" (click)="cancelRemoval()">
+            Cancel
+          </button>
+          <button type="button" class="button button--danger" [disabled]="isRemoving()" (click)="removeFood()">
+            {{ isRemoving() ? 'Removing…' : 'Remove food' }}
+          </button>
+        </div>
+      </div>
+    </section>
   }
 </section>

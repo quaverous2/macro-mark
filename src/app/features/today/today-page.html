@@ -44,38 +44,25 @@
     }
 
     <section class="daily-log" aria-label="Today's food entries">
-      @if (entries().length === 0) {
-        <p class="daily-log__empty">Add a food, then enter the grams you ate.</p>
-      } @else {
-        <div class="daily-table-scroll">
-          <table>
-            <thead><tr><th scope="col">Food</th><th scope="col">Amount</th><th scope="col">Carbs</th><th scope="col">Fat</th><th scope="col">Protein</th><th scope="col">Salt</th><th scope="col">Calories</th><th scope="col"><span class="visually-hidden">Actions</span></th></tr></thead>
-            <tbody>
-              @for (entry of entries(); track entry.id) {
-                @let nutrition = calculateEntryNutrition(entry);
-                <tr>
-                  <th scope="row">{{ entry.foodName }}</th>
-                  <td><label class="amount-field"><span class="visually-hidden">Amount in grams for {{ entry.foodName }}</span><input type="number" min="0" max="10000" step="0.01" inputmode="decimal" [formControl]="amountControl(entry.id)" (input)="updateAmount(entry.id, amountControl(entry.id).value)" (blur)="flushAmountSave(entry.id)" /><span>g</span></label></td>
-                  <td>{{ formatNutritionValue(nutrition.carbohydratesGramsPer100g) }} g</td>
-                  <td>{{ formatNutritionValue(nutrition.fatGramsPer100g) }} g</td>
-                  <td>{{ formatNutritionValue(nutrition.proteinGramsPer100g) }} g</td>
-                  <td>{{ formatNutritionValue(nutrition.saltGramsPer100g) }} g</td>
-                  <td>{{ formatNutritionValue(nutrition.calories) }}</td>
-                  <td><button type="button" class="remove-button" (click)="removeEntry(entry.id)">Remove</button></td>
-                </tr>
-              }
-            </tbody>
-          </table>
+      <div class="nutrition-list nutrition-list--today">
+        <div class="nutrition-list__header" aria-hidden="true">
+          <span>Name</span><span>Carbs</span><span>Fat</span><span>Protein</span><span>Salt</span><span>Amount</span><span>Calories</span><span></span>
         </div>
-      }
+        @for (entry of entries(); track entry.id) {
+          <app-nutrition-row
+            kind="today"
+            [name]="entry.foodName"
+            [nutrition]="calculateEntryNutrition(entry)"
+            [amountControl]="amountControl(entry.id)"
+            (amountChanged)="updateAmount(entry.id, $event)"
+            (amountBlurred)="flushAmountSave(entry.id)"
+            (removeRequested)="removeEntry(entry.id)"
+          />
+        } @empty {
+          <p class="daily-log__empty">Add a food, then enter the grams you ate.</p>
+        }
+      </div>
+      <app-nutrition-row kind="today" name="Total" [nutrition]="totals()" [isTotal]="true" />
     </section>
-
-    <aside class="daily-totals" aria-label="Today's totals">
-      <div><span>Calories</span><strong>{{ formatNutritionValue(totals().calories) }} kcal</strong></div>
-      <div><span>Carbs</span><strong>{{ formatNutritionValue(totals().carbohydratesGramsPer100g) }} g</strong></div>
-      <div><span>Fat</span><strong>{{ formatNutritionValue(totals().fatGramsPer100g) }} g</strong></div>
-      <div><span>Protein</span><strong>{{ formatNutritionValue(totals().proteinGramsPer100g) }} g</strong></div>
-      <div><span>Salt</span><strong>{{ formatNutritionValue(totals().saltGramsPer100g) }} g</strong></div>
-    </aside>
   }
 </section>

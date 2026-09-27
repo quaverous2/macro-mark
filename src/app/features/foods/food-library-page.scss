@@ -1,91 +1,13 @@
-.food-library-page {
-  padding: clamp(1.5rem, 5vw, 3.5rem) 0;
-}
-
-.page-header {
-  align-items: end;
-  display: flex;
-  gap: 1rem;
-  justify-content: space-between;
-}
-
-.eyebrow {
-  color: var(--accent-strong);
-  font-size: 0.875rem;
-  font-weight: 700;
-  margin: 0 0 0.4rem;
-}
-
-h1,
-h2 {
-  color: var(--ink);
-  letter-spacing: -0.03em;
-  margin: 0;
-}
-
-h1 {
-  font-size: clamp(2rem, 5vw, 2.75rem);
-}
-
-.empty-state,
-.state-message {
-  margin-top: 2rem;
-}
-
-.empty-state {
-  background: var(--surface);
-  border: 1px dashed var(--border-strong);
-  border-radius: 1rem;
-  max-width: 38rem;
-  padding: clamp(1.5rem, 5vw, 2.5rem);
-}
-
-.empty-state h2 {
-  font-size: 1.25rem;
-}
-
-.empty-state p,
-.state-message {
-  color: var(--muted);
-  line-height: 1.55;
-}
-
-.empty-state .button {
-  margin-top: 0.75rem;
-}
-
-.state-message--error {
-  color: var(--danger);
-}
-
-.search-field {
-  display: block;
-  margin-top: 2rem;
-  max-width: 32rem;
-}
-
-.search-field span {
-  color: var(--ink);
-  display: block;
-  font-size: 0.875rem;
-  font-weight: 700;
-  margin-bottom: 0.5rem;
-}
-
-.search-field input {
-  background: var(--surface);
-  border: 1px solid var(--border-strong);
-  border-radius: 0.75rem;
-  box-sizing: border-box;
-  color: var(--ink);
-  font: inherit;
-  padding: 0.75rem;
-  width: 100%;
-}
-
-.food-grid {
-  display: grid;
-  gap: 1rem;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 17rem), 1fr));
-  margin-top: 1.25rem;
-}
+.food-library-page { padding: clamp(1.5rem, 5vw, 3.5rem) 0; }
+.page-header { align-items: end; display: flex; gap: 1rem; justify-content: space-between; }
+.eyebrow { color: var(--accent-strong); font-size: 0.875rem; font-weight: 700; margin: 0 0 0.4rem; }
+h1, h2 { color: var(--ink); letter-spacing: -0.03em; margin: 0; } h1 { font-size: clamp(2rem, 5vw, 2.75rem); }
+.empty-state, .state-message { margin-top: 2rem; }
+.empty-state { background: var(--surface); border: 1px dashed var(--border-strong); border-radius: 1rem; max-width: 38rem; padding: clamp(1.5rem, 5vw, 2.5rem); }
+.empty-state h2 { font-size: 1.25rem; }.empty-state p, .state-message { color: var(--muted); line-height: 1.55; }.empty-state .button { margin-top: 0.75rem; }.state-message--error { color: var(--danger); }
+.search-field { display: block; margin-top: 2rem; max-width: 32rem; }.search-field span { color: var(--ink); display: block; font-size: 0.875rem; font-weight: 700; margin-bottom: 0.5rem; }.search-field input { background: var(--surface); border: 1px solid var(--border-strong); border-radius: 0.75rem; box-sizing: border-box; color: var(--ink); font: inherit; padding: 0.75rem; width: 100%; }
+.nutrition-list { background: var(--surface); border: 1px solid var(--border); border-radius: 1rem; margin-top: 1.25rem; overflow: hidden; }
+.nutrition-list__header { color: var(--muted); display: none; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.02em; text-transform: uppercase; }
+.removal-dialog { align-items: center; background: rgb(21 28 26 / 50%); display: flex; inset: 0; justify-content: center; padding: 1.5rem; position: fixed; z-index: 10; }
+.removal-dialog__content { background: var(--surface); border: 1px solid var(--border); border-radius: 1rem; box-shadow: 0 1.25rem 3rem rgb(21 28 26 / 20%); max-width: 30rem; padding: clamp(1.25rem, 5vw, 2rem); }.removal-dialog__content h2 { font-size: 1.25rem; }.removal-dialog__content p { color: var(--muted); line-height: 1.55; }.removal-dialog__actions { display: flex; gap: 0.75rem; justify-content: end; margin-top: 1.5rem; }
+@media (min-width: 40rem) { .nutrition-list--foods { --nutrition-row-columns: minmax(10rem, 1.7fr) repeat(5, minmax(3.5rem, 0.7fr)) 2.25rem 2.25rem; }.nutrition-list__header { display: grid; gap: 0.75rem; grid-template-columns: var(--nutrition-row-columns); padding: 0.75rem 1rem; } }
