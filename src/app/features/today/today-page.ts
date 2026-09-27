@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, HostListener, computed, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, HostListener, ViewChild, computed, inject, signal } from '@angular/core';
 import { FormControl, ReactiveFormsModule, ValidatorFn } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { DailyFoodEntry } from '../../core/domain/daily-log';
@@ -24,6 +24,8 @@ const amountValidator: ValidatorFn = (control) => {
   styleUrl: './today-page.scss',
 })
 export class TodayPage {
+  @ViewChild('foodPicker') private foodPicker?: ElementRef<HTMLElement>;
+
   private readonly foodRepository = inject(FoodRepository);
   private readonly dailyLogRepository = inject(DailyLogRepository);
   private dateKey = getLocalDateKey();
@@ -53,13 +55,25 @@ export class TodayPage {
     if (document.visibilityState === 'visible') void this.refreshForDateChange();
   }
 
-  protected async togglePicker(): Promise<void> {
+  protected async togglePicker(event: MouseEvent): Promise<void> {
+    event.stopPropagation();
     if (await this.refreshForDateChange()) return;
     this.isPickerOpen.update((isOpen) => !isOpen);
     this.pickerSearch.set('');
   }
 
   protected updatePickerSearch(value: string): void { this.pickerSearch.set(value); }
+
+  protected closePicker(): void {
+    this.isPickerOpen.set(false);
+    this.pickerSearch.set('');
+  }
+
+  @HostListener('document:click', ['$event'])
+  protected closePickerOnOutsideClick(event: MouseEvent): void {
+    if (!this.isPickerOpen() || this.foodPicker?.nativeElement.contains(event.target as Node)) return;
+    this.closePicker();
+  }
 
   protected async addEntry(food: Food): Promise<void> {
     if (await this.refreshForDateChange()) return;

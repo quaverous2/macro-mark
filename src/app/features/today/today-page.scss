@@ -5,7 +5,12 @@ h1 { color: var(--ink); font-size: clamp(2rem, 5vw, 2.75rem); letter-spacing: -0
 .empty-state, .food-picker { background: var(--surface); border: 1px solid var(--border); border-radius: 1rem; padding: clamp(1.25rem, 4vw, 2rem); }
 .empty-state { max-width: 36rem; }.empty-state h2 { font-size: 1.25rem; margin: 0; }
 .empty-state p, .daily-log__empty { color: var(--muted); line-height: 1.5; margin: 0.75rem 0 1.25rem; }
-.food-picker { margin-bottom: 1rem; }.search-field { display: grid; gap: 0.4rem; font-size: 0.875rem; font-weight: 700; }
+.food-picker { margin-bottom: 1rem; }
+.food-picker__header { align-items: center; display: flex; gap: 1rem; justify-content: space-between; margin-bottom: 1rem; }
+.food-picker__header h2 { font-size: 1.25rem; margin: 0; }
+.food-picker__close { background: transparent; border: 0; border-radius: 0.35rem; color: var(--danger); cursor: pointer; font: inherit; font-weight: 800; min-height: 2rem; min-width: 2rem; padding: 0.25rem; }
+.food-picker__close:hover, .food-picker__close:focus-visible { background: var(--accent-soft); outline: none; }
+.search-field { display: grid; gap: 0.4rem; font-size: 0.875rem; font-weight: 700; }
 .search-field input { border: 1px solid var(--border-strong); border-radius: 0.75rem; min-height: 2.75rem; padding: 0.5rem 0.75rem; }
 .food-picker__results { display: grid; gap: 0.5rem; margin-top: 1rem; max-height: 17rem; overflow-y: auto; }
 .pick-food-card { background: var(--surface-subtle); border: 1px solid var(--border); border-radius: 0.75rem; color: var(--ink); cursor: pointer; display: grid; gap: 0.2rem; padding: 0.75rem; text-align: left; }

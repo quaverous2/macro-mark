@@ -5,7 +5,7 @@
       <h1>What did you eat?</h1>
     </div>
     @if (foods().length > 0) {
-      <button type="button" class="button button--primary" (click)="togglePicker()">Add row</button>
+      <button type="button" class="button button--primary" (click)="togglePicker($event)">Add row</button>
     }
   </header>
 
@@ -21,7 +21,11 @@
     </section>
   } @else {
     @if (isPickerOpen()) {
-      <section class="food-picker" aria-label="Add a food to today">
+      <section #foodPicker class="food-picker" aria-labelledby="food-picker-title" (click)="$event.stopPropagation()">
+        <div class="food-picker__header">
+          <h2 id="food-picker-title">Add a food to today</h2>
+          <button type="button" class="food-picker__close" aria-label="Close add food picker" (click)="closePicker()">x</button>
+        </div>
         <label class="search-field">
           <span>Find a food</span>
           <input #pickerInput type="search" placeholder="Search your foods" [value]="pickerSearch()" (input)="updatePickerSearch(pickerInput.value)" autofocus />
